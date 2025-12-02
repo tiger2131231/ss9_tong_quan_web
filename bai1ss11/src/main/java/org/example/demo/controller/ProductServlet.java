@@ -148,6 +148,9 @@ public class ProductServlet extends HttpServlet {
 
     private void createProduct(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
+
+        request.setCharacterEncoding("UTF-8");
+
         int id = Integer.parseInt(request.getParameter("id"));
         String name = request.getParameter("name");
         double price = Double.parseDouble(request.getParameter("price"));
@@ -157,8 +160,9 @@ public class ProductServlet extends HttpServlet {
         Product product = new Product(id, name, price, description, manufacturer);
         productService.save(product);
 
-        response.sendRedirect("/products");
+        response.sendRedirect(request.getContextPath() + "/products");
     }
+
 
 }
 
