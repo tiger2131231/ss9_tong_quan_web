@@ -55,8 +55,22 @@ public class ProductServlet extends HttpServlet {
         request.getRequestDispatcher("products/search.jsp").forward(request, response);
     }
 
-    private void viewProduct(HttpServletRequest request, HttpServletResponse response) {
+    private void viewProduct(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        int id = Integer.parseInt(request.getParameter("id"));
+        Product product = productService.findById(id);
+
+        if (product == null) {
+            request.setAttribute("message", "Không tìm thấy sản phẩm!");
+            request.getRequestDispatcher("products/view.jsp").forward(request, response);
+            return;
+        }
+
+        request.setAttribute("product", product);
+        request.getRequestDispatcher("products/view.jsp").forward(request, response);
     }
+
 
     private void showEditForm(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -67,8 +81,12 @@ public class ProductServlet extends HttpServlet {
     }
 
 
-    private void showCreateForm(HttpServletRequest request, HttpServletResponse response) {
+    private void showCreateForm(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        request.getRequestDispatcher("products/create.jsp").forward(request, response);
     }
+
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
